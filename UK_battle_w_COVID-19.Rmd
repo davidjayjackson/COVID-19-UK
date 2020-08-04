@@ -1,0 +1,35 @@
+---
+title: "UK's Battle w/ COVID-19"
+author: "David J Jackson"
+date: "8/4/2020"
+output: 
+  html_document: 
+    fig_width: 9
+    fig_height: 7
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+rm(list=ls())
+EUP <-read.csv("../DATA/EU_top_10_pop..csv")
+EUPOP <- subset(EUP,Population >=30000000)
+# EUPOP$Population <- as.factor(EUPOP$Population)
+EUCOVID <- read.csv("../DATA/COVID-19-ECDPC-2020-08-04.csv")
+EUCOVID$dateRep <- gsub("/","-",EUCOVID$dateRep)
+EUCOVID$dateRep <- as.Date(EUCOVID$dateRep,format="%m-%d-%Y")
+```
+```{r}
+UK <- subset(EUCOVID,geoId =="UK")
+
+```
+
+* UK mean cases: `r mean(UK$cases)`
+* UK mean deaths: `r mean(UK$deaths)`
+
+```{r}
+plot(UK$dateRep,UK$cases,main="UK Daily Cases",type="b")
+plot(UK$dateRep,UK$deaths,main="UK Daily Deaths",type="b")
+```
+
