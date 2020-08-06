@@ -16,7 +16,7 @@ rm(list=ls())
 EUP <-read.csv("../DATA/EU_top_10_pop..csv")
 EUPOP <- subset(EUP,Population >=30000000)
 # EUPOP$Population <- as.factor(EUPOP$Population)
-EUCOVID <- read.csv("../DATA/COVID-19-ECDPC-2020-08-04.csv")
+EUCOVID <- read.csv("../DATA/COVID-19-ECDPC-2020-08-06.csv")
 EUCOVID$dateRep <- gsub("/","-",EUCOVID$dateRep)
 EUCOVID$dateRep <- as.Date(EUCOVID$dateRep,format="%m-%d-%Y")
 ```
@@ -24,12 +24,39 @@ EUCOVID$dateRep <- as.Date(EUCOVID$dateRep,format="%m-%d-%Y")
 UK <- subset(EUCOVID,geoId =="UK")
 
 ```
+#### Just the Stats:
 
-* UK mean cases: `r mean(UK$cases)`
-* UK mean deaths: `r mean(UK$deaths)`
+* UK mean casUK: `r round(mean(UK$cases),digits=0)`
+* UK mean deaths: `r round(mean(UK$deaths),digits=0)`
+* UK median casUK: `r round(median(UK$cases),digits=0)`
+* UK median deaths: `r round(median(UK$deaths),digits=0)`
+* UK max casUK: `r round(max(UK$cases),digits=0)`
+* UK max deaths: `r round(max(UK$deaths),digits=0)`
+
 
 ```{r}
 plot(UK$dateRep,UK$cases,main="UK Daily Cases",type="b")
+
 plot(UK$dateRep,UK$deaths,main="UK Daily Deaths",type="b")
+
+```
+```{r}
+UK$Month <- as.Date(cut(UK$dateRep,
+  breaks = "month"))
+UK$Week <- as.Date(cut(UK$dateRep,
+  breaks = "week",
+  start.on.monday = FALSE)) # changUK weekly break point to Sunday
+```
+```{r}
+UKMC <- aggregate(cases~Week,data=UK,FUN=mean)
+UKMD <- aggregate(deaths~Week,data=UK,FUN=mean)
+```
+```{r}
+plot(UK$dateRep,UK$cases,type="b",main="Daily and Weekly Mean CasUK",col="red")
+lines(UKMC$Week,UKMC$cases,col="blue")
 ```
 
+```{r}
+plot(UK$dateRep,UK$deaths,type="b",main="Daily and Weekly Mean Deaths",col="red")
+lines(UKMD$Week,UKMD$deaths,col="blue")
+```
