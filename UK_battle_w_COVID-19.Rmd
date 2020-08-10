@@ -1,7 +1,7 @@
 ---
 title: "UK's Battle w/ COVID-19"
 author: "David J Jackson"
-date: "8/4/2020"
+date: "8/10/2020"
 output: 
   html_document: 
     fig_width: 9
@@ -16,7 +16,7 @@ rm(list=ls())
 EUP <-read.csv("../DATA/EU_top_10_pop..csv")
 EUPOP <- subset(EUP,Population >=30000000)
 # EUPOP$Population <- as.factor(EUPOP$Population)
-EUCOVID <- read.csv("../DATA/COVID-19-ECDPC-2020-08-06.csv")
+EUCOVID <- read.csv("../DATA/COVID-19-ECDCP-2020-08-10.csv")
 EUCOVID$dateRep <- gsub("/","-",EUCOVID$dateRep)
 EUCOVID$dateRep <- as.Date(EUCOVID$dateRep,format="%m-%d-%Y")
 ```
@@ -26,11 +26,11 @@ UK <- subset(EUCOVID,geoId =="UK")
 ```
 #### Just the Stats:
 
-* UK mean casUK: `r round(mean(UK$cases),digits=0)`
+* UK mean cases UK: `r round(mean(UK$cases),digits=0)`
 * UK mean deaths: `r round(mean(UK$deaths),digits=0)`
-* UK median casUK: `r round(median(UK$cases),digits=0)`
+* UK median cases UK: `r round(median(UK$cases),digits=0)`
 * UK median deaths: `r round(median(UK$deaths),digits=0)`
-* UK max casUK: `r round(max(UK$cases),digits=0)`
+* UK max cases UK: `r round(max(UK$cases),digits=0)`
 * UK max deaths: `r round(max(UK$deaths),digits=0)`
 
 
@@ -60,3 +60,4 @@ lines(UKMC$Week,UKMC$cases,col="blue")
 plot(UK$dateRep,UK$deaths,type="b",main="Daily and Weekly Mean Deaths",col="red")
 lines(UKMD$Week,UKMD$deaths,col="blue")
 ```
+
